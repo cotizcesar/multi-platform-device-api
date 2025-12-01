@@ -25,7 +25,7 @@ A Django REST Framework API for managing devices across multiple platforms with 
 
 3. **Create test data** (in a new terminal):
    ```bash
-   docker-compose exec web /app/.venv/bin/python manage.py setup_test_data
+   docker-compose exec web python manage.py setup_test_data
    ```
    
    This creates:
@@ -35,7 +35,7 @@ A Django REST Framework API for managing devices across multiple platforms with 
 
 4. **Create a superuser** (optional, for Django admin):
    ```bash
-   docker-compose exec web /app/.venv/bin/python manage.py createsuperuser
+   docker-compose exec web python manage.py createsuperuser
    ```
 
 5. **Stop the server**:
@@ -52,26 +52,24 @@ A Django REST Framework API for managing devices across multiple platforms with 
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
-2. **Create virtual environment and install dependencies**:
+2. **Install dependencies with uv**:
    ```bash
-   uv venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip install -r requirements.txt
+   uv sync
    ```
 
 3. **Apply migrations**:
    ```bash
-   python manage.py migrate
+   uv run manage.py migrate
    ```
 
 4. **Create test data** (optional):
    ```bash
-   python manage.py setup_test_data
+   uv run manage.py setup_test_data
    ```
 
 5. **Run server**:
    ```bash
-   python manage.py runserver
+   uv run manage.py runserver
    ```
 
 The API will be available at `http://localhost:8000`
@@ -206,20 +204,20 @@ curl -X POST http://localhost:8000/api/auth/refresh/ \
 ### With Docker:
 
 ```bash
-docker-compose exec web /app/.venv/bin/python manage.py test
+docker-compose exec web python manage.py test
 ```
 
 ### Without Docker:
 
 ```bash
-python manage.py test
+uv run manage.py test
 ```
 
 Run with coverage:
 
 ```bash
-coverage run --source='api' manage.py test api
-coverage report
+uv run coverage run --source='api' manage.py test api
+uv run coverage report
 ```
 
 ## Platform Isolation
@@ -280,12 +278,17 @@ multi-platform-device-api/
 
 This project uses:
 - **ruff** for linting and formatting
-- **pre-commit** for git hooks
+- **uv** for dependency management
 
-Run linting:
+Run linting and formatting:
 ```bash
-ruff check .
-ruff format .
+uv run ruff check .
+uv run ruff format .
+```
+
+Fix linting issues automatically:
+```bash
+uv run ruff check --fix .
 ```
 
 ## Development
@@ -295,10 +298,10 @@ ruff format .
 1. Create a superuser:
    ```bash
    # With Docker:
-   docker-compose exec web /app/.venv/bin/python manage.py createsuperuser
+   docker-compose exec web python manage.py createsuperuser
    
    # Without Docker:
-   python manage.py createsuperuser
+   uv run manage.py createsuperuser
    ```
 
 2. Access admin panel at `http://localhost:8000/admin/`

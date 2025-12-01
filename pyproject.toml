@@ -11,8 +11,8 @@ dependencies = [
     "django-cors-headers>=4.4",
 ]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "ruff>=0.5.0",
     "pre-commit>=3.7.0",
     "coverage>=7.5.0",

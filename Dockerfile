@@ -26,4 +26,4 @@ RUN uv pip install -r requirements.txt
 COPY . .
 
 # Run entrypoint
-CMD ["/app/.venv/bin/python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
